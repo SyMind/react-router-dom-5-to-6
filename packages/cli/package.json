@@ -1,0 +1,8 @@
+{
+  "name": "react-router-dom-5-to-6",
+  "version": "0.0.1",
+  "description": "codemod cli for react-router-dom v6 upgrade ⚒️",
+  "repository": "https://github.com/SyMind/react-router-dom-5-to-6.git",
+  "author": "SyMind <dacongsama@live.com>",
+  "license": "MIT"
+}
