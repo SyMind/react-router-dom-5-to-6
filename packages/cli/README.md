@@ -10,6 +10,12 @@
 npx react-router-dom-5-to-6 src
 ```
 
+## 和 [react-router-v6-codemods](https://github.com/rajasegar/react-router-v6-codemods) 的区别
+
+react-router-v6-codemods 脚本采用渐进式升级路线，在升级过程中依赖 react-router-dom-v5-compat，会长期处在 v5 版本。
+
+本脚本则是选择直接升级到 v6 版本，以此能够更加迅速的尝试 v6 版本的新特性，分析其对目标项目性能的影响，如 LCP 指标。
+
 ## Codemod 脚本包括
 
 #### `change-match-path-args-order`
