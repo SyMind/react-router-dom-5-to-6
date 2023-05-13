@@ -2,7 +2,25 @@
   "name": "react-router-dom-5-to-6",
   "version": "0.0.1",
   "description": "codemod cli for react-router-dom v6 upgrade ⚒️",
+  "bin": {
+    "react-router-dom-5-to-6": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "transforms"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
   "repository": "https://github.com/SyMind/react-router-dom-5-to-6.git",
   "author": "SyMind <dacongsama@live.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "execa": "^5.0.0",
+    "fs-extra": "^9.1.0",
+    "is-git-clean": "^1.1.0",
+    "jscodeshift": "^0.11.0",
+    "yargs-parser": "^20.2.6"
+  }
 }
