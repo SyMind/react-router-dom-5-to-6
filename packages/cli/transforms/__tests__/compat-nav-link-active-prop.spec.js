@@ -5,6 +5,7 @@ const defineTest = require('jscodeshift/dist/testUtils').defineTest;
 
 const tests = [
   'all-nav-link-used-active-prop',
+  'prevent-dup-import-compat-pkg',
 ];
 
 tests.forEach(test => {

@@ -1,21 +1,12 @@
+const getReactRouterDomImport = require('./utils/getReactRouterDomImport');
+const importCompat = require('./utils/importCompat');
+
 module.exports = function (file, api, options) {
   const j = api.jscodeshift;
 
   const root = j(file.source);
 
-  // Get all paths that import from react-router-dom
-  const reactRouterDomImportPaths = root
-  .find(j.ImportDeclaration, {
-    type: 'ImportDeclaration'
-  })
-  .filter(path => (
-    (
-      path.value.source.type === 'Literal' ||
-      path.value.source.type === 'StringLiteral'
-    ) && path.value.source.value === 'react-router-dom'
-  ));
-
-  const reactRouterDomPath = reactRouterDomImportPaths.paths()[0];
+  const reactRouterDomPath = getReactRouterDomImport(j, root);
   if (!reactRouterDomPath) {
     return root.toSource(options);
   }
@@ -57,18 +48,10 @@ module.exports = function (file, api, options) {
     }
   }
 
-  const compatImportDeclaration = j.importDeclaration(
-    [
-      j.importSpecifier(
-        j.identifier('NavLink')
-      )
-    ],
-    j.literal('react-router-dom-5-to-6-compat')
-  );
   if (removedReactRouterDomPath) {
-    j(reactRouterDomPath).replaceWith(compatImportDeclaration);
+    importCompat(j, root, ['NavLink'], 'replaceWith', reactRouterDomPath)
   } else {
-    j(reactRouterDomPath).insertAfter(compatImportDeclaration);
+    importCompat(j, root, ['NavLink'], 'insertAfter', reactRouterDomPath)
   }
 
   return root.toSource(options);

@@ -1,3 +1,6 @@
+const getReactRouterDomImport = require('./utils/getReactRouterDomImport');
+const importCompat = require('./utils/importCompat');
+
 const COMPAT_FUNCS = [
   'withRouter',
   'useHistory'
@@ -8,19 +11,7 @@ module.exports = function (file, api, options) {
 
   const root = j(file.source);
 
-   // Get all paths that import from react-router-dom
-   const reactRouterDomImportPaths = root
-    .find(j.ImportDeclaration, {
-      type: 'ImportDeclaration'
-    })
-    .filter(path => (
-      (
-        path.value.source.type === 'Literal' ||
-        path.value.source.type === 'StringLiteral'
-      ) && path.value.source.value === 'react-router-dom'
-    ));
-
-  const reactRouterDomPath = reactRouterDomImportPaths.paths()[0];
+  const reactRouterDomPath = getReactRouterDomImport(j, root);
   if (!reactRouterDomPath) {
     return root.toSource(options);
   }
@@ -31,11 +22,7 @@ module.exports = function (file, api, options) {
     if (specifier.type !== 'ImportSpecifier' || !COMPAT_FUNCS.includes(specifier.imported.name)) {
       specifiers.push(specifier)
     } else {
-      compatSpecifiers.push(
-        j.importSpecifier(
-          j.identifier(specifier.imported.name)
-        )
-      )
+      compatSpecifiers.push(specifier.imported.name)
     }
   }
 
@@ -45,15 +32,11 @@ module.exports = function (file, api, options) {
 
   if (specifiers.length > 0) {
     reactRouterDomPath.value.specifiers = specifiers;
-  } else {
-    j(reactRouterDomPath).remove();
-  }
 
-  const compatImportDeclaration = j.importDeclaration(
-    compatSpecifiers,
-    j.literal('react-router-dom-5-to-6-compat')
-  );
-  j(reactRouterDomPath).insertAfter(compatImportDeclaration);
+    importCompat(j, root, compatSpecifiers, 'insertAfter', reactRouterDomPath);
+  } else {
+    importCompat(j, root, compatSpecifiers, 'replaceWith', reactRouterDomPath);
+  }
 
   return root.toSource(options);
 };

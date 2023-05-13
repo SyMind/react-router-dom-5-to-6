@@ -1,21 +1,11 @@
+const getReactRouterDomImport = require('./utils/getReactRouterDomImport');
+
 module.exports = function (file, api, options) {
   const j = api.jscodeshift;
 
   const root = j(file.source);
 
-   // Get all paths that import from react-router-dom
-   const reactRouterDomImportPaths = root
-    .find(j.ImportDeclaration, {
-      type: 'ImportDeclaration'
-    })
-    .filter(path => (
-      (
-        path.value.source.type === 'Literal' ||
-        path.value.source.type === 'StringLiteral'
-      ) && path.value.source.value === 'react-router-dom'
-    ));
-
-  const reactRouterDomPath = reactRouterDomImportPaths.paths()[0];
+  const reactRouterDomPath = getReactRouterDomImport(j, root);
   if (!reactRouterDomPath) {
     return root.toSource(options);
   }
