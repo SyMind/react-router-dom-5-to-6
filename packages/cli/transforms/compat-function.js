@@ -22,7 +22,11 @@ module.exports = function (file, api, options) {
     if (specifier.type !== 'ImportSpecifier' || !COMPAT_FUNCS.includes(specifier.imported.name)) {
       specifiers.push(specifier)
     } else {
-      compatSpecifiers.push(specifier.imported.name)
+      compatSpecifiers.push(
+        j.importSpecifier(
+          j.identifier(specifier.imported.name),
+        )
+      )
     }
   }
 

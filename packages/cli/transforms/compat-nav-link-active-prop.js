@@ -21,6 +21,8 @@ module.exports = function (file, api, options) {
   let needImportNavLink = false;
   let needImportCompatNavLink = false;
 
+  let needCompatNavLinkJSXElements = [];
+
   root
     .find(j.JSXElement, {
       openingElement: { name: { name: navLinkLocalName } },
@@ -28,10 +30,7 @@ module.exports = function (file, api, options) {
     .forEach(path => {
       const usedActiveProp = path.value.openingElement.attributes.some(a => ['activeClassName', 'activeStyle'].includes(a.name.name))
       if (usedActiveProp) {
-        path.value.openingElement.name.name = 'NavLink';
-        if (path.value.closingElement) {
-          path.value.closingElement.name.name = 'NavLink';
-        }
+        needCompatNavLinkJSXElements.push(path);
   
         needImportCompatNavLink = true;
       } else {
@@ -39,19 +38,37 @@ module.exports = function (file, api, options) {
       }
     })
 
+  if (!needImportCompatNavLink) {
+    return root.toSource(options);
+  }
+
   let removedReactRouterDomPath = false;
   if (!needImportNavLink) {
     if (reactRouterDomPath.value.specifiers.length === 1) {
-      removedReactRouterDomPath = true
+      removedReactRouterDomPath = true;
     } else {
-      reactRouterDomPath.value.specifiers = reactRouterDomPath.value.specifiers.filter(specifier => specifier.imported.name === 'NavLink')
+      reactRouterDomPath.value.specifiers = reactRouterDomPath.value.specifiers.filter(
+        specifier => specifier.imported.name === 'NavLink'
+      );
     }
   }
 
+  const compatNavLinkSpecifier = j.importSpecifier(
+    j.identifier('NavLink'),
+    needImportNavLink ? j.identifier('CompatNavLink') : null
+  );
+  needCompatNavLinkJSXElements.forEach(path => {
+    const compatNavLinkLocalName = needImportNavLink ? 'CompatNavLink' : 'NavLink';
+    path.value.openingElement.name.name = compatNavLinkLocalName;
+    if (path.value.closingElement) {
+      path.value.closingElement.name.name = compatNavLinkLocalName;
+    }
+  });
+
   if (removedReactRouterDomPath) {
-    importCompat(j, root, ['NavLink'], 'replaceWith', reactRouterDomPath)
+    importCompat(j, root, [compatNavLinkSpecifier], 'replaceWith', reactRouterDomPath);
   } else {
-    importCompat(j, root, ['NavLink'], 'insertAfter', reactRouterDomPath)
+    importCompat(j, root, [compatNavLinkSpecifier], 'insertAfter', reactRouterDomPath);
   }
 
   return root.toSource(options);

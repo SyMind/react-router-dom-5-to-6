@@ -14,11 +14,7 @@ module.exports = function importCompat(j, root, specifiers, action, reactRouterD
   
   if (compatImport) {
     specifiers.forEach(specifier => {
-      compatImport.value.specifiers.push(
-        j.importSpecifier(
-          j.identifier(specifier)
-        )
-      )
+      compatImport.value.specifiers.push(specifier)
     })
 
     if (action === 'replaceWith') {
@@ -26,9 +22,7 @@ module.exports = function importCompat(j, root, specifiers, action, reactRouterD
     }
   } else {
     const compatImportDeclaration = j.importDeclaration(
-      specifiers.map(specifier => j.importSpecifier(
-        j.identifier(specifier)
-      )),
+      specifiers,
       j.literal('react-router-dom-5-to-6-compat')
     );
 
