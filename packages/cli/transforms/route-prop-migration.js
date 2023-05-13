@@ -36,6 +36,13 @@ module.exports = function (file, api, options) {
         if (pathProp) {
           if (pathProp.value.type === 'Literal') {
             pathProp.value.value = pathProp.value.value + '/*';
+          } else if (pathProp.value.type === 'JSXExpressionContainer' && pathProp.value.expression.type === 'TemplateLiteral') {
+            const expression = pathProp.value.expression;
+            const lastQuasi = expression.quasis[expression.quasis.length - 1];
+            if (lastQuasi.tail) {
+              lastQuasi.value.raw = lastQuasi.value.raw + '/*';
+              lastQuasi.value.cooked = lastQuasi.value.cooked + '/*';
+            }
           }
         }
       } else {
