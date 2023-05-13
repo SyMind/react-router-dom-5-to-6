@@ -11,10 +11,10 @@ const tests = [
 tests.forEach(test => {
   defineTest(
     __dirname,
-    'compat-with-router',
+    'compat',
     {
       quote: 'single'
     },
-    `compat-with-router/${test}`
+    `compat/${test}`
   );
 });

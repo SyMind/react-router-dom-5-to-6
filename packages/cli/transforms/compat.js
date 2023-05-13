@@ -1,3 +1,8 @@
+const COMPAT_APIS = [
+  'withRouter',
+  'useHistory'
+]
+
 module.exports = function (file, api, options) {
   const j = api.jscodeshift;
 
@@ -17,28 +22,32 @@ module.exports = function (file, api, options) {
 
   const reactRouterDomPath = reactRouterDomImportPaths.paths()[0];
 
-  const filteredSpecifiers = reactRouterDomPath.value.specifiers.filter(
-    specifier =>
-      specifier.type !== 'ImportSpecifier' ||
-      specifier.imported.name !== 'withRouter'
-  );
+  const specifiers = [];
+  const compatSpecifiers = [];
+  for (const specifier of reactRouterDomPath.value.specifiers) {
+    if (specifier.type !== 'ImportSpecifier' || !COMPAT_APIS.includes(specifier.imported.name)) {
+      specifiers.push(specifier)
+    } else {
+      compatSpecifiers.push(
+        j.importSpecifier(
+          j.identifier(specifier.imported.name)
+        )
+      )
+    }
+  }
 
-  if (filteredSpecifiers.length === reactRouterDomPath.value.specifiers) {
+  if (compatSpecifiers.length === 0) {
     return
   }
 
-  if (filteredSpecifiers.length > 0) {
-    reactRouterDomPath.value.specifiers = filteredSpecifiers;
+  if (specifiers.length > 0) {
+    reactRouterDomPath.value.specifiers = specifiers;
   } else {
     j(reactRouterDomPath).remove();
   }
 
   const compatImportDeclaration = j.importDeclaration(
-    [
-      j.importSpecifier(
-        j.identifier('withRouter')
-      )
-    ],
+    compatSpecifiers,
     j.literal('react-router-dom-5-to-6-compat')
   );
   j(reactRouterDomPath).insertAfter(compatImportDeclaration);
