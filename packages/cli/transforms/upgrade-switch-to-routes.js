@@ -16,6 +16,9 @@ module.exports = function (file, api, options) {
     ));
 
   const reactRouterDomPath = reactRouterDomImportPaths.paths()[0];
+  if (!reactRouterDomPath) {
+    return root.toSource(options);
+  }
 
   const switchImportIndex = reactRouterDomPath.value.specifiers.findIndex(
     specifier =>
@@ -24,7 +27,7 @@ module.exports = function (file, api, options) {
   );
 
   if (switchImportIndex === -1) {
-    return
+    return root.toSource(options);
   }
 
   const switchLocalName = reactRouterDomPath.value.specifiers[switchImportIndex].local.name;

@@ -21,6 +21,9 @@ module.exports = function (file, api, options) {
     ));
 
   const reactRouterDomPath = reactRouterDomImportPaths.paths()[0];
+  if (!reactRouterDomPath) {
+    return root.toSource(options);
+  }
 
   const specifiers = [];
   const compatSpecifiers = [];
@@ -37,7 +40,7 @@ module.exports = function (file, api, options) {
   }
 
   if (compatSpecifiers.length === 0) {
-    return
+    return root.toSource(options);
   }
 
   if (specifiers.length > 0) {
