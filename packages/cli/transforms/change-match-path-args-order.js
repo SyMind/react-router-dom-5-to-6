@@ -25,7 +25,6 @@ module.exports = function (file, api, options) {
       specifier.type === 'ImportSpecifier' &&
       specifier.imported.name === 'matchPath'
   );
-  
   const matchPathLocalName = matchPathImport.local.name;
 
   root

@@ -1,0 +1,58 @@
+module.exports = function (file, api) {
+  const j = api.jscodeshift;
+
+  const root = j(file.source);
+
+  // Get all paths that import from react-router-dom
+  const reactRouterDomImportPaths = root
+  .find(j.ImportDeclaration, {
+    type: 'ImportDeclaration'
+  })
+  .filter(path => (
+    (
+      path.value.source.type === 'Literal' ||
+      path.value.source.type === 'StringLiteral'
+    ) && path.value.source.value === 'react-router-dom'
+  ));
+
+  const reactRouterDomPath = reactRouterDomImportPaths.paths()[0];
+  if (!reactRouterDomPath) {
+    return root.toSource(options);
+  }
+
+  const useRouteMatchImport = reactRouterDomPath.value.specifiers.find(
+    specifier =>
+      specifier.type === 'ImportSpecifier' &&
+      specifier.imported.name === 'useRouteMatch'
+  );
+  const useRouteMatchLocalName = useRouteMatchImport.local.name;
+  useRouteMatchImport.imported.name = 'useMatch';
+  useRouteMatchImport.local = null;
+
+  root
+    .find(j.CallExpression, {
+      callee: { name: useRouteMatchLocalName },
+    })
+    .forEach((path) => {
+      path.value.callee.name = 'useMatch';
+
+      if (path.value.arguments.length > 0) {
+        const args = path.value.arguments;
+
+        args
+          .filter((a) => a.type === 'ObjectExpression')
+          .forEach((a) => {
+            const [strictVal] = a.properties.filter((p) => p.key.name === 'strict');
+            if (strictVal) {
+              strictVal.key.name = 'end';
+            }
+            const [sensitiveVal] = a.properties.filter((p) => p.key.name === 'sensitive');
+            if (sensitiveVal) {
+              sensitiveVal.key.name = 'caseSensitive';
+            }
+          });
+      }
+    });
+
+  return root.toSource();
+};
