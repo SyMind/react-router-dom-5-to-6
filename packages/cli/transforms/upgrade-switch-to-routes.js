@@ -42,14 +42,9 @@ module.exports = function (file, api, options) {
     })
     .forEach((path) => {
       path.value.openingElement.name.name = 'Routes';
-    });
-
-  root
-    .find(j.JSXElement, {
-      closingElement: { name: { name: switchLocalName } },
-    })
-    .forEach((path) => {
-      path.value.closingElement.name.name = 'Routes';
+      if (path.value.closingElement) {
+        path.value.closingElement.name.name = 'Routes';
+      }
     });
 
   return root.toSource(options);
