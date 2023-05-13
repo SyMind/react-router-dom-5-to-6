@@ -17,6 +17,8 @@ const transformersDir = path.join(__dirname, '../transforms');
 // https://github.com/facebook/jscodeshift/blob/master/parser/babylon.js
 const babylonConfig = path.join(__dirname, './babylon.config.json');
 
+const ignoreConfig = path.join(__dirname, './codemod.ignore');
+
 const transformers = [
   'change-match-path-args-order',
   'compat-function',
@@ -53,17 +55,12 @@ function getRunnerArgs(
 
   args.push('--transform', transformerPath);
 
-  if (options.gitignore) {
-    args.push('--ignore-config', options.gitignore);
-  }
+  args.push('--ignore-config', ignoreConfig);
 
   if (options.style) {
     args.push('--importStyles');
   }
 
-  if (options.pages) {
-    args.push(`--pages=${options.pages}`);
-  }
   return args;
 }
 

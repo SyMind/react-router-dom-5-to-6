@@ -1,0 +1,8 @@
+node_modules
+*.css
+*.json
+*.less
+*.sass
+*.scss
+.umi
+*.d.ts
