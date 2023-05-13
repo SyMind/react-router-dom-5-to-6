@@ -1,15 +1,28 @@
 import { useMemo, useEffect, useRef } from 'react'
-import { useLocation, useNavigate, createPath } from 'react-router-dom'
-import type { History, LocationListener, LocationState } from 'history'
+import { useLocation, useNavigate, createPath, unstable_useBlocker as useBlocker } from 'react-router-dom'
+import type { History, LocationListener, LocationState, TransitionPromptHook } from 'history'
 
 export function useHistory<HistoryLocationState = LocationState>(): History<HistoryLocationState> {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const cbs = useRef<LocationListener<HistoryLocationState>[]>([])
+  const promptRef = useRef<string | boolean | TransitionPromptHook<HistoryLocationState> | undefined>()
+
+  useBlocker(() => {
+    const result = typeof promptRef.current === 'function' ? promptRef.current(location, 'PUSH') : promptRef.current
+    if (typeof result === 'string') {
+      return !window.confirm(result)
+    }
+    if (typeof result === 'boolean') {
+      return result
+    }
+    return false
+  })
+
+  const listenCbs = useRef<LocationListener<HistoryLocationState>[]>([])
 
   useEffect(() => {
-    for (const cb of cbs.current) {
+    for (const cb of listenCbs.current) {
       cb(location, 'PUSH')
     }
   }, [location]);
@@ -39,15 +52,17 @@ export function useHistory<HistoryLocationState = LocationState>(): History<Hist
       navigate(1)
     },
     block(prompt) {
-      // TODO
-      return () => {}
+      promptRef.current = prompt
+      return () => {
+        promptRef.current = undefined
+      }
     },
     listen(listener) {
-      if (!cbs.current.includes(listener)) {
-        cbs.current.push(listener)
+      if (!listenCbs.current.includes(listener)) {
+        listenCbs.current.push(listener)
       }
       return () => {
-        cbs.current = cbs.current.filter(cb => cb !== listener)
+        listenCbs.current = listenCbs.current.filter(cb => cb !== listener)
       }
     },
     createHref(location) {
