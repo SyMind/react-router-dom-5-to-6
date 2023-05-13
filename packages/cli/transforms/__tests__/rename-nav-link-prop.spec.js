@@ -4,17 +4,17 @@ jest.autoMockOff();
 const defineTest = require('jscodeshift/dist/testUtils').defineTest;
 
 const tests = [
-  'only-import-with-router',
-  'import-with-router-and-others',
+  'basic',
+  'named-import-alias',
 ];
 
 tests.forEach(test => {
   defineTest(
     __dirname,
-    'compat',
+    'rename-nav-link-prop',
     {
       quote: 'single'
     },
-    `compat/${test}`
+    `rename-nav-link-prop/${test}`
   );
 });

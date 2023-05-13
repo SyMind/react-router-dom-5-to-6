@@ -1,4 +1,4 @@
-module.exports = function (file, api) {
+module.exports = function (file, api, options) {
   const j = api.jscodeshift;
 
   const root = j(file.source);
@@ -54,5 +54,5 @@ module.exports = function (file, api) {
       }
     });
 
-  return root.toSource();
+  return root.toSource(options);
 };
