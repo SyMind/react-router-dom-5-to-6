@@ -7,6 +7,7 @@ const chalk = require('chalk');
 const execa = require('execa');
 const checkUpdates = require('./checkUpdate');
 const ensureGitClean = require('./ensureGitClean');
+const detectDependencies = require('./detectDependencies');
 
 const jscodeshiftBin = require.resolve('.bin/jscodeshift');
 
@@ -173,7 +174,7 @@ async function bootstrap() {
   // await marker.start();
 
   // const dependenciesMarkers = await marker.output();
-  // await checkDependencies(project.sourceRoot, dependenciesMarkers);
+  await detectDependencies(dir);
 
   console.log('\n----------- Thanks for using react-router-dom-5-to-6 -----------');
 }
