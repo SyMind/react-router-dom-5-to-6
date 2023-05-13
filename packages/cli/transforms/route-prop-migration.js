@@ -49,6 +49,22 @@ module.exports = function (file, api, options) {
         // remove exact prop
         path.value.openingElement.attributes.splice(exactPropIndex, 1);
       }
+
+      const componentProp = path.value.openingElement.attributes.find(
+        a => a.name.name === 'component'
+      );
+      if (componentProp) {
+        if (componentProp.value.type === 'JSXExpressionContainer' && componentProp.value.expression.type === 'Identifier') {
+          componentProp.name.name = 'element';
+          componentProp.value.expression = j.jsxElement(
+            j.jsxOpeningElement(
+              j.jsxIdentifier(componentProp.value.expression.name),
+              [],
+              true
+            )
+          );
+        }
+      }
     });
 
   return root.toSource(options);
