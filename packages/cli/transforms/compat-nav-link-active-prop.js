@@ -16,6 +16,9 @@ module.exports = function (file, api, options) {
       specifier.type === 'ImportSpecifier' &&
       specifier.imported.name === 'NavLink'
   );
+  if (!navLinkImport) {
+    return root.toSource(options);
+  }
   const navLinkLocalName = navLinkImport.local.name;
 
   let needImportNavLink = false;

@@ -27,32 +27,6 @@ const transformers = [
   'upgrade-switch-to-routes',
 ];
 
-const dependencyProperties = [
-  'dependencies',
-  'devDependencies',
-  'clientDependencies',
-  'isomorphicDependencies',
-  'buildDependencies'
-];
-
-const tableChars = {
-  top: '',
-  'top-mid': '',
-  'top-left': '',
-  'top-right': '',
-  bottom: '',
-  'bottom-mid': '',
-  'bottom-left': '',
-  'bottom-right': '',
-  left: '',
-  'left-mid': '',
-  mid: '',
-  'mid-mid': '',
-  right: '',
-  'right-mid': '',
-  middle: ''
-};
-
 function getRunnerArgs(
   transformerPath,
   parser = 'babylon', // use babylon as default parser
@@ -125,9 +99,6 @@ async function transform(transformer, parser, filePath, options) {
   }
 }
 
-async function checkDependencies(targetDir, dependenciesMarkers) {
-}
-
 /**
  * options
  * --force   // force skip git checking (dangerously)
@@ -169,7 +140,7 @@ async function bootstrap() {
     process.exit(1);
   }
 
-  // await run(project.sourceRoot, args);
+  await run(dir, args);
 
   // await marker.start();
 
