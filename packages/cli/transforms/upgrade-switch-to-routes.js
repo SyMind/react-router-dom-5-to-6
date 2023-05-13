@@ -27,13 +27,15 @@ module.exports = function (file, api, options) {
     return
   }
 
+  const switchLocalName = reactRouterDomPath.value.specifiers[switchImportIndex].local.name;
+
   reactRouterDomPath.value.specifiers[switchImportIndex] = j.importSpecifier(
     j.identifier('Routes')
   )
 
   root
     .find(j.JSXElement, {
-      openingElement: { name: { name: 'Switch' } },
+      openingElement: { name: { name: switchLocalName } },
     })
     .forEach((path) => {
       path.value.openingElement.name.name = 'Routes';
@@ -41,7 +43,7 @@ module.exports = function (file, api, options) {
 
   root
     .find(j.JSXElement, {
-      closingElement: { name: { name: 'Switch' } },
+      closingElement: { name: { name: switchLocalName } },
     })
     .forEach((path) => {
       path.value.closingElement.name.name = 'Routes';

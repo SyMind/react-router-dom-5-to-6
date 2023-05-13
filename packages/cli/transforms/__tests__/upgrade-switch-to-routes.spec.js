@@ -6,6 +6,7 @@ const defineTest = require('jscodeshift/dist/testUtils').defineTest;
 const tests = [
   'class-component',
   'function-component',
+  'named-import-alias'
 ];
 
 tests.forEach(test => {
