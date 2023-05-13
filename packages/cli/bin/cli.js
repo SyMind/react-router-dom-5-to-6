@@ -5,7 +5,8 @@ const path = require('path');
 const os = require('os');
 const chalk = require('chalk');
 const execa = require('execa');
-const isGitClean = require('is-git-clean');
+const checkUpdates = require('./checkUpdate');
+const ensureGitClean = require('./ensureGitClean');
 
 const jscodeshiftBin = require.resolve('.bin/jscodeshift');
 
@@ -16,6 +17,13 @@ const transformersDir = path.join(__dirname, '../transforms');
 const babylonConfig = path.join(__dirname, './babylon.config.json');
 
 const transformers = [
+  'change-match-path-args-order',
+  'compat-function',
+  'compat-nav-link-active-prop',
+  'rename-nav-link-prop',
+  'replace-redirect-to-navigate',
+  'replace-use-route-match-with-use-match',
+  'upgrade-switch-to-routes',
 ];
 
 const dependencyProperties = [
@@ -43,23 +51,6 @@ const tableChars = {
   'right-mid': '',
   middle: ''
 };
-
-async function ensureGitClean() {
-  let clean = false;
-  try {
-    clean = await isGitClean();
-  } catch (err) {
-    if (err && err.stderr && err.stderr.toLowerCase().includes('not a git repository')) {
-      clean = true;
-    }
-  }
-
-  if (!clean) {
-    console.log(chalk.yellow('Sorry that there are still some git changes'));
-    console.log('\n you must commit or stash them firstly');
-    process.exit(1);
-  }
-}
 
 function getRunnerArgs(
   transformerPath,
@@ -142,10 +133,15 @@ async function checkDependencies(targetDir, dependenciesMarkers) {
  * --cpus=1  // specify cpus cores to use
  */
 async function bootstrap() {
+  const dir = process.argv[2];
+
   const args = require('yargs-parser')(process.argv.slice(3));
 
   if (process.env.NODE_ENV !== 'local') {
-    // 检查 git 状态
+     // check for updates
+     await checkUpdates();
+
+    // check for git status
     if (!args.force) {
       await ensureGitClean();
     } else {
@@ -162,9 +158,19 @@ async function bootstrap() {
     }
   }
 
-  // await marker.start();
+  // check for `path`
+  if (!dir) {
+    console.log(chalk.yellow('Please pass dir'));
+    process.exit(1);
+  }
+  if (!fs.existsSync(dir)) {
+    console.log(chalk.yellow('Invalid dir:', dir, ', please pass a valid dir'));
+    process.exit(1);
+  }
 
-  await run(project.sourceRoot, args);
+  // await run(project.sourceRoot, args);
+
+  // await marker.start();
 
   // const dependenciesMarkers = await marker.output();
   // await checkDependencies(project.sourceRoot, dependenciesMarkers);

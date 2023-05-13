@@ -1,6 +1,6 @@
 # React Router DOM 5 to 6
 
-一组帮助你升级到 React Router DOM 6 的 codemod 脚本集合，基于 [jscodeshift](https://github.com/facebook/jscodeshift) 构建。(受 [Ant Design 5 Codemod](https://github.com/ant-design/codemod-v5) 启发) ⚒️
+尽最大努力将项目直接升级到 React Router DOM 6 的脚本，基于 [jscodeshift](https://github.com/facebook/jscodeshift) 构建。(受 [Ant Design 5 Codemod](https://github.com/ant-design/codemod-v5) 启发) ⚒️
 
 ## 使用
 
