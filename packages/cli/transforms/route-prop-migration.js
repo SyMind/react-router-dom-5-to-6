@@ -26,6 +26,7 @@ module.exports = function (file, api, options) {
       openingElement: { name: { name: routeImportLocalName } },
     })
     .forEach((path) => {
+      // exact and path prop
       const exactPropIndex = path.value.openingElement.attributes.findIndex(
         a => a.name.name === 'exact'
       );
@@ -50,6 +51,7 @@ module.exports = function (file, api, options) {
         path.value.openingElement.attributes.splice(exactPropIndex, 1);
       }
 
+      // component prop to element prop
       const componentProp = path.value.openingElement.attributes.find(
         a => a.name.name === 'component'
       );
@@ -65,6 +67,9 @@ module.exports = function (file, api, options) {
           );
         }
       }
+
+      // render prop to element prop
+      // TODO
     });
 
   return root.toSource(options);

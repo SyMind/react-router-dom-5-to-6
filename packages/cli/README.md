@@ -102,6 +102,20 @@ export function App() {
 }
 ```
 
+#### `route-prop-migration`
+
+更新 `<Route>` 组件的属性。
+
+```diff
+import { Route } from 'react-router-dom';
+import { App } from './app';
+
+export function Foo() {
+- return <Route exact path="users" component={App} />;
++ return <Route path="users" component={<App />} />;
+}
+```
+
 #### `upgrade-switch-to-routes`
 
 更新所有的 `<Switch>` 组件为 `<Routes>` 组件。
