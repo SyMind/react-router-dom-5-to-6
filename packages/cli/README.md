@@ -80,10 +80,10 @@ export function App() {
 import { useRouteMatch } from 'react-router-dom';
 
 export function App() {
-- useRouteMatch({ strict });
-+ useMatch({ end: strict });
-- useRouteMatch({ sensitive });
-+ useMatch({ caseSensitive: sensitive });
+- useRouteMatch({ strict: true });
++ useMatch({ end: true });
+- useRouteMatch({ sensitive: true });
++ useMatch({ caseSensitive: true });
 
   return null;
 }

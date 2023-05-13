@@ -1,4 +1,8 @@
 import { useMatch } from 'react-router-dom';
 
-useMatch({ end });
-useMatch({ caseSensitive });
+export function App() {
+  useMatch({ end: true });
+  useMatch({ caseSensitive: true });
+
+  return null;
+}

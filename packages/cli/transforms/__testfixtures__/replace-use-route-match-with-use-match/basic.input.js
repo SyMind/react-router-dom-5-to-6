@@ -1,4 +1,8 @@
 import { useRouteMatch } from 'react-router-dom';
 
-useRouteMatch({ strict });
-useRouteMatch({ sensitive });
+export function App() {
+  useRouteMatch({ strict: true });
+  useRouteMatch({ sensitive: true });
+
+  return null;
+}
