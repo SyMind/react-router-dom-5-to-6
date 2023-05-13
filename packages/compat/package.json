@@ -22,7 +22,16 @@
   "publishConfig": {
     "access": "public"
   },
+  "peerDependencies": {
+    "react-router-dom": ">=6.0.0"
+  },
   "devDependencies": {
-    "father": "^4.2.0"
+    "@types/hoist-non-react-statics": "^3.1.0",
+    "father": "^4.2.0",
+    "react-router-dom": "^6.11.1"
+  },
+  "dependencies": {
+    "@types/history": "^4.0.0",
+    "hoist-non-react-statics": "^3.0.0"
   }
 }
