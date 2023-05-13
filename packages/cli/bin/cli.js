@@ -21,12 +21,13 @@ const ignoreConfig = path.join(__dirname, './codemod.ignore');
 
 const transformers = [
   'change-match-path-args-order',
-  'compat-function',
-  'compat-nav-link-active-prop',
   'rename-nav-link-prop',
   'replace-redirect-to-navigate',
   'replace-use-route-match-with-use-match',
   'upgrade-switch-to-routes',
+
+  'compat-function',
+  'compat-nav-link-active-prop',
 ];
 
 function getRunnerArgs(

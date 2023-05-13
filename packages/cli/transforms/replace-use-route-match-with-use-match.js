@@ -18,6 +18,7 @@ module.exports = function (file, api, options) {
   if (!useRouteMatchImport) {
     return root.toSource(options);
   }
+
   const useRouteMatchLocalName = useRouteMatchImport.local.name;
   useRouteMatchImport.imported.name = 'useMatch';
   useRouteMatchImport.local = null;
