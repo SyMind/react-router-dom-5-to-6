@@ -30,13 +30,26 @@ const match = matchPath(
 );
 ```
 
-### `compat-function`
+#### `compat-function`
 
 兼容 v5 中的 `withRouter`、`useHistory` 方法。
 
 ```diff
 -import { withRouter, useHistory } from 'react-router-dom';
 +import { withRouter, useHistory } from 'react-router-dom-5-to-6-compat';
+```
+
+#### `compat-nav-link-active-prop`
+
+兼容 v5 中的 `<NavLink>` 组件的 `activeClassName`、`activeStyle` 属性。
+
+```diff
+-import { NavLink } from 'react-router-dom';
++import { NavLink } from 'react-router-dom-5-to-6-compat';
+
+export function Foo() {
+  return <NavLink activeClassName="active" />;
+}
 ```
 
 #### `rename-nav-link-prop`
