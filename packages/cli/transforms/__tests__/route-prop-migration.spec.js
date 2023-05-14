@@ -11,7 +11,8 @@ const tests = [
   'exact-and-template-path',
   'no-exact-and-string-path',
   'no-exact-and-template-path',
-  'nothing'
+  'nothing',
+  'render-and-exact'
 ];
 
 tests.forEach(test => {

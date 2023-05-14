@@ -1,4 +1,5 @@
 const getReactRouterDomImport = require('./utils/getReactRouterDomImport');
+const importCompat = require('./utils/importCompat');
 
 module.exports = function (file, api, options) {
   const j = api.jscodeshift;
@@ -89,7 +90,22 @@ module.exports = function (file, api, options) {
       }
 
       // render prop to element prop
-      // TODO
+      const renderProp = path.value.openingElement.attributes.find(
+        a => a.name.name === 'render'
+      );
+      if (renderProp) {
+        const compatSpecifiers = [
+          j.importSpecifier(
+            j.identifier('Route'),
+            j.identifier(routeImportLocalName)
+          )
+        ];
+        if (reactRouterDomPath.value.specifiers.length === 1) {
+          importCompat(j, root, compatSpecifiers, 'replaceWith', reactRouterDomPath);
+        } else {
+          importCompat(j, root, compatSpecifiers, 'insertAfter', reactRouterDomPath);
+        }
+      }
     });
 
   return root.toSource(options);
