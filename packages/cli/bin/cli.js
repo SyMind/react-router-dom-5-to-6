@@ -29,7 +29,7 @@ const transformers = [
   'upgrade-switch-to-routes',
   'route-prop-migration',
 
-  'compat-function',
+  'compat-function-and-type',
   'compat-nav-link-active-prop',
 ];
 

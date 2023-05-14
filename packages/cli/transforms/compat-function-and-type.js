@@ -1,9 +1,13 @@
 const getReactRouterDomImport = require('./utils/getReactRouterDomImport');
 const importCompat = require('./utils/importCompat');
 
-const COMPAT_FUNCS = [
+const COMPAT_FUNCS_OR_TYPES = [
+  // functions
   'withRouter',
-  'useHistory'
+  'useHistory',
+
+  // types
+  'RouteComponentProps',
 ]
 
 module.exports = function (file, api, options) {
@@ -19,7 +23,7 @@ module.exports = function (file, api, options) {
   const specifiers = [];
   const compatSpecifiers = [];
   for (const specifier of reactRouterDomPath.value.specifiers) {
-    if (specifier.type !== 'ImportSpecifier' || !COMPAT_FUNCS.includes(specifier.imported.name)) {
+    if (specifier.type !== 'ImportSpecifier' || !COMPAT_FUNCS_OR_TYPES.includes(specifier.imported.name)) {
       specifiers.push(specifier)
     } else {
       compatSpecifiers.push(

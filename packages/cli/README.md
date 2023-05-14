@@ -36,7 +36,7 @@ const match = matchPath(
 );
 ```
 
-#### `compat-function`
+#### `compat-function-and-type`
 
 Compatible with the `withRouter` and `useHistory` methods in v5.
 

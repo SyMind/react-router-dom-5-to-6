@@ -13,10 +13,10 @@ const tests = [
 tests.forEach(test => {
   defineTest(
     __dirname,
-    'compat-function',
+    'compat-function-and-type',
     {
       quote: 'single'
     },
-    `compat-function/${test}`
+    `compat-function-and-type/${test}`
   );
 });
