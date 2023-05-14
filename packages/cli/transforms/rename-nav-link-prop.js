@@ -33,5 +33,5 @@ module.exports = function (file, api, options) {
       }
     });
 
-  return root.toSource();
+  return root.toSource(options);
 };

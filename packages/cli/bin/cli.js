@@ -20,11 +20,14 @@ const babylonConfig = path.join(__dirname, './babylon.config.json');
 const ignoreConfig = path.join(__dirname, './codemod.ignore');
 
 const transformers = [
+  'repalce-react-router-with-react-router-dom',
+
   'change-match-path-args-order',
   'rename-nav-link-prop',
   'replace-redirect-to-navigate',
   'replace-use-route-match-with-use-match',
   'upgrade-switch-to-routes',
+  'route-prop-migration',
 
   'compat-function',
   'compat-nav-link-active-prop',
