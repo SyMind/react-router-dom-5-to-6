@@ -81,6 +81,8 @@ module.exports = function (file, api, options) {
       const jsxTexts = path.value.children.filter(child => child.type === 'JSXText');
       if (jsxElements.length === 1 && !jsxTexts.some(text => text.value.trim() !== '')) {
         path.value.children = [];
+        path.value.openingElement.selfClosing = true;
+        path.value.closingElement = null;
         path.value.openingElement.attributes.push(
           j.jsxAttribute(
             j.jsxIdentifier('element'),
@@ -103,6 +105,7 @@ module.exports = function (file, api, options) {
         if (reactRouterDomPath.value.specifiers.length === 1) {
           importCompat(j, root, compatSpecifiers, 'replaceWith', reactRouterDomPath);
         } else {
+          reactRouterDomPath.value.specifiers = reactRouterDomPath.value.specifiers.filter(specifier => specifier !== routeImport);
           importCompat(j, root, compatSpecifiers, 'insertAfter', reactRouterDomPath);
         }
       }

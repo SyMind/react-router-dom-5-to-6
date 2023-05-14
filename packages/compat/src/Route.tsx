@@ -17,13 +17,17 @@ export class Route<T extends {} = {}, Path extends string = string> extends Reac
   render() {
     const { render, ...rest } = this.props
 
-    class WrappedComponent extends React.Component<RouteComponentProps> {
-      render() {
-        return render ? render(this.props) : null
+    if (render) {
+      class WrappedComponent extends React.Component<RouteComponentProps> {
+        render() {
+          return render!(this.props)
+        }
       }
-    }
-    const Component = withRouter(WrappedComponent)
+      const Component = withRouter(WrappedComponent)
 
-    return <V6Route {...rest} element={<Component />} />
+      return <V6Route {...rest} element={<Component />} />
+    }
+
+    return <V6Route {...rest} />
   }
 }

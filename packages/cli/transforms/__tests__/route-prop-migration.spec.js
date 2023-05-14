@@ -9,6 +9,7 @@ const tests = [
   'component-and-exact',
   'exact-and-string-path',
   'exact-and-template-path',
+  'multiple-route-components',
   'no-exact-and-string-path',
   'no-exact-and-template-path',
   'nothing',

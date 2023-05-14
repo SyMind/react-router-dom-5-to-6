@@ -14,7 +14,9 @@ module.exports = function importCompat(j, root, specifiers, action, reactRouterD
   
   if (compatImport) {
     specifiers.forEach(specifier => {
-      compatImport.value.specifiers.push(specifier)
+      if (!compatImport.value.specifiers.some(s => s.imported.name === specifier.imported.name)) {
+        compatImport.value.specifiers.push(specifier)
+      }
     })
 
     if (action === 'replaceWith') {
