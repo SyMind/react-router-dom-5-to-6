@@ -1,26 +1,26 @@
 # React Router DOM 5 to 6
 
-尽最大努力将项目直接升级到 React Router DOM 6 的脚本，基于 [jscodeshift](https://github.com/facebook/jscodeshift) 构建。(受 [Ant Design 5 Codemod](https://github.com/ant-design/codemod-v5) 启发) ⚒️
+A collection of codemod scripts that help direct upgrade React Router DOM 6 using [jscodeshift](https://github.com/facebook/jscodeshift). Inspired by [Ant Design v5 Codemod](https://github.com/ant-design/codemod-v5).
 
-## 使用
+## Usage
 
-在运行 codemod 脚本前，请先提交你的本地代码修改。
+Before run codemod scripts, you'd better make sure to commit your local git changes firstly.
 
 ```bash
 npx react-router-dom-5-to-6 src
 ```
 
-## 和 [react-router-v6-codemods](https://github.com/rajasegar/react-router-v6-codemods) 的区别
+## Compared with [react-router-v6-codemods](https://github.com/rajasegar/react-router-v6-codemods)
 
-react-router-v6-codemods 脚本采用渐进式升级路线，在升级过程中依赖 react-router-dom-v5-compat，会长期处在 v5 版本。
+react-router-v6-codemods script adopts a progressive upgrade scheme using react-router-dom-v5-compat, and will be in the v5 version for a long time.
 
-本脚本则是选择直接升级到 v6 版本，以此能够更加迅速的尝试 v6 版本的新特性，分析其对目标项目性能的影响，如 LCP 指标。
+This script adopts a direct upgrade scheme, in order to quickly try out the new features of the v6 version and analyze their impact on the performance of the target project, such as LCP indicators.
 
-## Codemod 脚本包括
+## Codemod scripts introduction
 
 #### `change-match-path-args-order`
 
-更新 `matchPath` 方法的参数顺序。
+Upgrade parameters order of the `matchPath` method.
 
 ```diff
 import { matchPath } from 'react-router-dom';
@@ -38,7 +38,7 @@ const match = matchPath(
 
 #### `compat-function`
 
-兼容 v5 中的 `withRouter`、`useHistory` 方法。
+Compatible with the `withRouter` and `useHistory` methods in v5.
 
 ```diff
 -import { withRouter, useHistory } from 'react-router-dom';
@@ -47,7 +47,7 @@ const match = matchPath(
 
 #### `compat-nav-link-active-prop`
 
-兼容 v5 中的 `<NavLink>` 组件的 `activeClassName`、`activeStyle` 属性。
+Compatible with the `activeClassName` and `activeStyle` properties of `<NavLink>` component.
 
 ```diff
 -import { NavLink } from 'react-router-dom';
@@ -60,7 +60,7 @@ export function Foo() {
 
 #### `rename-nav-link-prop`
 
-更新 `<NavLink>` 组件的属性名。
+Upgrade the property name of the `<NavLink>` component.
 
 ```diff
 import { NavLink } from 'react-router-dom';
@@ -73,7 +73,7 @@ export function App() {
 
 #### `replace-redirect-to-navigate`
 
-更新 `<Redirect>` 组件为 `<Navigate>`。
+Replace `<Redirect>` component with `<Navigate>` component.
 
 ```diff
 -import { Redirect } from 'react-router-dom';
@@ -93,7 +93,7 @@ export function App() {
 
 #### `replace-use-route-match-with-use-match`
 
-更新 `useRouteMatch` 方法为 `useMatch`。
+Replace `useRouteMatch` method with `useMatch`.
 
 ```diff
 import { useRouteMatch } from 'react-router-dom';
@@ -110,7 +110,7 @@ export function App() {
 
 #### `route-prop-migration`
 
-更新 `<Route>` 组件的属性。
+Migrate the properties of `<Route>` component.
 
 ```diff
 import { Route } from 'react-router-dom';
@@ -124,7 +124,7 @@ export function Foo() {
 
 #### `upgrade-switch-to-routes`
 
-更新所有的 `<Switch>` 组件为 `<Routes>` 组件。
+Upgrade `<Switch>` component to `<Routes>` component.
 
 ```diff
 - import { Switch, Route } from 'react-router-dom';
