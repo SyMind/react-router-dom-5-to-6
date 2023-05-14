@@ -1,7 +1,7 @@
 {
   "name": "react-router-dom-5-to-6-compat",
   "version": "0.0.1",
-  "description": "",
+  "description": "Compatible different apis or components in react-router-dom between v5 and v6.",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
