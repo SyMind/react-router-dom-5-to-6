@@ -71,6 +71,17 @@ export function App() {
 }
 ```
 
+#### `repalce-react-router-with-react-router-dom`
+
+Replace `react-router` with `react-router-dom`.
+
+```diff
+
+```diff
+-import { useHistory } from 'react-router';
++import { useHistory } from 'react-router-dom';
+```
+
 #### `replace-redirect-to-navigate`
 
 Replace `<Redirect>` component with `<Navigate>` component.
