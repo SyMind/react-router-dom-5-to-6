@@ -45,13 +45,19 @@ importers:
       hoist-non-react-statics:
         specifier: ^3.0.0
         version: 3.3.2
+      react:
+        specifier: '>=16.8.0'
+        version: 18.2.0
     devDependencies:
       '@types/hoist-non-react-statics':
         specifier: ^3.1.0
         version: 3.3.1
+      '@types/react':
+        specifier: ^18.2.6
+        version: 18.2.6
       father:
-        specifier: ^4.2.0
-        version: 4.2.0(styled-components@5.3.10)(webpack@5.82.1)
+        specifier: 4.1.9
+        version: 4.1.9(styled-components@5.3.10)(webpack@5.82.1)
       react-router-dom:
         specifier: ^6.11.1
         version: 6.11.1(react-dom@18.2.0)(react@18.2.0)
@@ -3568,8 +3574,8 @@ packages:
       reusify: 1.0.4
     dev: true
 
-  /father@4.2.0(styled-components@5.3.10)(webpack@5.82.1):
-    resolution: {integrity: sha512-VSeT22bLthMhu5CnaVaRxpiJwg39JF5H7sRpko+/cvvBq3el0kdwbv/dvTiJ8kEFNK7w9Mr/ChzaoUggYcc5fQ==}
+  /father@4.1.9(styled-components@5.3.10)(webpack@5.82.1):
+    resolution: {integrity: sha512-oY4Vlj4Qn0Ed9pM9SckSfQdn7yNVw50K6V5Ke2JRGoAvmTkQEh4qlAtkWngLNzwvCSgytyZTmI3Dqgpq6eboHg==}
     hasBin: true
     dependencies:
       '@microsoft/api-extractor': 7.34.3
@@ -4645,7 +4651,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: true
 
   /lru-cache@4.1.5:
     resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==}
@@ -5708,7 +5713,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
 
   /readable-stream@2.3.8:
     resolution: {integrity: sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==}

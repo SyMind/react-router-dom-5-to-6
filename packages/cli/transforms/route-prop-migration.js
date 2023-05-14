@@ -68,6 +68,26 @@ module.exports = function (file, api, options) {
         }
       }
 
+      // children to element prop
+      const childrenProp = path.value.openingElement.attributes.find(
+        a => a.name.name === 'children'
+      );
+      if (childrenProp) {
+        childrenProp.name.name = 'element';
+      }
+
+      const jsxElements = path.value.children.filter(child => child.type === 'JSXElement');
+      const jsxTexts = path.value.children.filter(child => child.type === 'JSXText');
+      if (jsxElements.length === 1 && !jsxTexts.some(text => text.value.trim() !== '')) {
+        path.value.children = [];
+        path.value.openingElement.attributes.push(
+          j.jsxAttribute(
+            j.jsxIdentifier('element'),
+            j.jsxExpressionContainer(jsxElements[0])
+          )
+        );
+      }
+
       // render prop to element prop
       // TODO
     });

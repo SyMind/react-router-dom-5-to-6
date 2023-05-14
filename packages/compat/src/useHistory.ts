@@ -8,16 +8,17 @@ export function useHistory<HistoryLocationState = LocationState>(): History<Hist
 
   const promptRef = useRef<string | boolean | TransitionPromptHook<HistoryLocationState> | undefined>()
 
-  useBlocker(() => {
-    const result = typeof promptRef.current === 'function' ? promptRef.current(location, 'PUSH') : promptRef.current
-    if (typeof result === 'string') {
-      return !window.confirm(result)
-    }
-    if (typeof result === 'boolean') {
-      return result
-    }
-    return false
-  })
+  // TODO: useBlocker must be used within a data router.
+  // useBlocker(() => {
+  //   const result = typeof promptRef.current === 'function' ? promptRef.current(location, 'PUSH') : promptRef.current
+  //   if (typeof result === 'string') {
+  //     return !window.confirm(result)
+  //   }
+  //   if (typeof result === 'boolean') {
+  //     return result
+  //   }
+  //   return false
+  // })
 
   const listenCbs = useRef<LocationListener<HistoryLocationState>[]>([])
 

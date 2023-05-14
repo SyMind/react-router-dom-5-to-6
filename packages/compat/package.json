@@ -8,7 +8,7 @@
     "dev": "father dev",
     "build": "father build",
     "build:deps": "father prebundle",
-    "prepublishOnly": "father doctor && npm run build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "authors": [
@@ -23,11 +23,13 @@
     "access": "public"
   },
   "peerDependencies": {
+    "react": ">=16.8.0",
     "react-router-dom": ">=6.0.0"
   },
   "devDependencies": {
     "@types/hoist-non-react-statics": "^3.1.0",
-    "father": "^4.2.0",
+    "@types/react": "^18.2.6",
+    "father": "4.1.9",
     "react-router-dom": "^6.11.1"
   },
   "dependencies": {

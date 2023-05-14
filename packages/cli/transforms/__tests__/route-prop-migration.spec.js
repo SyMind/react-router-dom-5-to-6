@@ -4,6 +4,8 @@ jest.autoMockOff();
 const defineTest = require('jscodeshift/dist/testUtils').defineTest;
 
 const tests = [
+  'children-and-exact',
+  'children-prop-and-exact',
   'component-and-exact',
   'exact-and-string-path',
   'exact-and-template-path',
