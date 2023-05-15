@@ -1,4 +1,5 @@
 const getReactRouterDomImport = require('./utils/getReactRouterDomImport');
+const importCompat = require('./utils/importCompat');
 
 module.exports = function (file, api, options) {
   const j = api.jscodeshift;
@@ -22,9 +23,15 @@ module.exports = function (file, api, options) {
 
   const switchLocalName = reactRouterDomPath.value.specifiers[switchImportIndex].local.name;
 
-  reactRouterDomPath.value.specifiers[switchImportIndex] = j.importSpecifier(
-    j.identifier('Routes')
-  )
+  const compatSpecifier = j.importSpecifier(
+    j.identifier('Routes'),
+  );
+  if (reactRouterDomPath.value.specifiers.length === 1) {
+    importCompat(j, root, [compatSpecifier], 'replaceWith', reactRouterDomPath);
+  } else {
+    reactRouterDomPath.value.specifiers.splice(switchImportIndex, 1);
+    importCompat(j, root, [compatSpecifier], 'insertAfter', reactRouterDomPath);
+  }
 
   root
     .find(j.JSXElement, {
