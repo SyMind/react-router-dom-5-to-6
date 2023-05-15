@@ -10,6 +10,7 @@ const tests = [
   'exact-and-string-path',
   'exact-and-template-path',
   'multiple-route-components',
+  'no-exact-and-no-path',
   'no-exact-and-string-path',
   'no-exact-and-template-path',
   'nothing',

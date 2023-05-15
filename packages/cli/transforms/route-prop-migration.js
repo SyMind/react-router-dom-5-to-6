@@ -46,6 +46,13 @@ module.exports = function (file, api, options) {
               lastQuasi.value.cooked = lastQuasi.value.cooked + '/*';
             }
           }
+        } else {
+          path.value.openingElement.attributes.push(
+            j.jsxAttribute(
+              j.jsxIdentifier('path'),
+              j.stringLiteral('*'),
+            )
+          );
         }
       } else {
         // remove exact prop
