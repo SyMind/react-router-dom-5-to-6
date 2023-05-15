@@ -95,19 +95,28 @@ module.exports = function (file, api, options) {
       const renderProp = path.value.openingElement.attributes.find(
         a => a.name.name === 'render'
       );
-      if (renderProp) {
+      if (renderProp && ['ArrowFunctionExpression', 'FunctionExpression'].includes(renderProp.value.expression.type)) {
+        renderProp.name.name = 'element';
+        const expression = renderProp.value.expression;
+        renderProp.value.expression = j.jsxElement(
+          j.jsxOpeningElement(
+            j.jsxIdentifier('RouteRender'),
+            [
+              j.jsxAttribute(
+                j.jsxIdentifier('render'),
+                j.jsxExpressionContainer(expression)
+              )
+            ],
+            true
+          ),
+        );
+
         const compatSpecifiers = [
           j.importSpecifier(
-            j.identifier('Route'),
-            j.identifier(routeImportLocalName)
+            j.identifier('RouteRender'),
           )
         ];
-        if (reactRouterDomPath.value.specifiers.length === 1) {
-          importCompat(j, root, compatSpecifiers, 'replaceWith', reactRouterDomPath);
-        } else {
-          reactRouterDomPath.value.specifiers = reactRouterDomPath.value.specifiers.filter(specifier => specifier !== routeImport);
-          importCompat(j, root, compatSpecifiers, 'insertAfter', reactRouterDomPath);
-        }
+        importCompat(j, root, compatSpecifiers, 'insertAfter', reactRouterDomPath);
       }
     });
 

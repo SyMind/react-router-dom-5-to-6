@@ -10,7 +10,6 @@ const COMPAT_FUNCS_OR_TYPES = [
   'RouteComponentProps',
   'PromptProps',
   'NavLinkProps',
-  'RouteProps',
 ]
 
 module.exports = function (file, api, options) {
