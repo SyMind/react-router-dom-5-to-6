@@ -68,11 +68,22 @@ module.exports = function (file, api, options) {
           componentProp.name.name = 'element';
           componentProp.value.expression = j.jsxElement(
             j.jsxOpeningElement(
-              j.jsxIdentifier(componentProp.value.expression.name),
-              [],
+              j.jsxIdentifier('RouteComponent'),
+              [
+                j.jsxAttribute(
+                  j.jsxIdentifier('component'),
+                  j.jsxExpressionContainer(componentProp.value.expression)
+                )
+              ],
               true
             )
           );
+          const compatSpecifiers = [
+            j.importSpecifier(
+              j.identifier('RouteComponent'),
+            )
+          ];
+          importCompat(j, root, compatSpecifiers, 'insertAfter', reactRouterDomPath);
         }
       }
 
