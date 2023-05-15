@@ -5,10 +5,6 @@
   "bin": {
     "react-router-dom-5-to-6": "./bin/cli.js"
   },
-  "files": [
-    "bin",
-    "transforms"
-  ],
   "scripts": {
     "test": "jest"
   },
