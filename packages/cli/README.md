@@ -10,6 +10,12 @@ Before run codemod scripts, you'd better make sure to commit your local git chan
 npx react-router-dom-5-to-6 src
 ```
 
+If you want to use a specific codemod script, you can use the following command.
+
+```bash
+npx react-router-dom-5-to-6 src --transform=<codemod-script-name>
+```
+
 ## Compared with [react-router-v6-codemods](https://github.com/rajasegar/react-router-v6-codemods)
 
 react-router-v6-codemods script adopts a progressive upgrade scheme using react-router-dom-v5-compat, and will be in the v5 version for a long time.
