@@ -5,6 +5,7 @@ const path = require('path');
 const os = require('os');
 const chalk = require('chalk');
 const execa = require('execa');
+const _ = require('lodash');
 const checkUpdates = require('./checkUpdate');
 const ensureGitClean = require('./ensureGitClean');
 const detectDependencies = require('./detectDependencies');
@@ -69,6 +70,12 @@ function getRunnerArgs(
 }
 
 async function run(filePath, args = {}) {
+  // run single transformer
+  if (args.transform) {
+    await transform(args.transform, 'babylon', filePath, _.omit(args, 'transform'));
+    return
+  }
+
   for (const transformer of transformers) {
     await transform(transformer, 'babylon', filePath, args);
   }
